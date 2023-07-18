@@ -36,20 +36,13 @@ let usersOnline = new Map();
 
 io.on("connection", (socket: Socket) => {
   socket.on("user-connected", (userId) => {
-    console.log(`user id ${userId} connected with id ${socket.id}`);
     usersOnline.set(userId, socket.id);
   });
 
   socket.on("send-msg", (data) => {
     const user = usersOnline.get(data.toId);
 
-    console.log("45");
-    console.log(user);
     if (!user) return;
-
-    console.log("uzytkownik online i leca dane: ");
-    console.log(data);
-    console.log(user);
 
     socket.to(user).emit("msg-receive", data);
   });
